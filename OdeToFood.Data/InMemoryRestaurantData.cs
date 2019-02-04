@@ -10,12 +10,12 @@ namespace OdeToFood.Data
 
         public InMemoryRestaurantData()
         {
-            _restaurants = new List<Restaurant>()
+            _restaurants = new List<Restaurant>  
             {
                 new Restaurant { Id = 1, Name = "Scott's Pizza", Location = "Maryland", Cuisine = CuisineType.Italian },
-                new Restaurant { Id = 1, Name = "Joe's Mexican Restaurant", Location = "Texas", Cuisine = CuisineType.Mexican },
-                new Restaurant { Id = 1, Name = "Jeffrey's Lounge", Location = "Manitoba", Cuisine = CuisineType.Comfort },
-                new Restaurant { Id = 1, Name = "Clay Oven", Location = "Manitoba", Cuisine = CuisineType.Indian }
+                new Restaurant { Id = 2, Name = "Joe's Mexican Restaurant", Location = "Texas", Cuisine = CuisineType.Mexican },
+                new Restaurant { Id = 3, Name = "Jeffrey's Lounge", Location = "Manitoba", Cuisine = CuisineType.Comfort },
+                new Restaurant { Id = 4, Name = "Clay Oven", Location = "Manitoba", Cuisine = CuisineType.Indian }
             };
         }
 
@@ -26,5 +26,7 @@ namespace OdeToFood.Data
                 orderby r.Name
                 select r;
         }
+
+        public Restaurant GetById(int id) => _restaurants.FirstOrDefault(o => o.Id == id);
     }
 }
