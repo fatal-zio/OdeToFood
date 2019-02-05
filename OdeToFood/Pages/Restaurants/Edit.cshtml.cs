@@ -5,12 +5,12 @@ using OdeToFood.Data;
 
 namespace OdeToFood.Pages.Restaurants
 {
-    public class DetailModel : PageModel
+    public class EditModel : PageModel
     {
         private readonly IRestaurantData _restaurantData;
         public Restaurant Restaurant { get; set; }
 
-        public DetailModel(IRestaurantData restaurantData) => _restaurantData = restaurantData;
+        public EditModel(IRestaurantData restaurantData) => _restaurantData = restaurantData;
 
         public IActionResult OnGet(int restaurantId)
         {
