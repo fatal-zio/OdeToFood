@@ -35,6 +35,12 @@ namespace OdeToFood.Pages.Restaurants
         public IActionResult OnPost()
         {
             GetCuisines();
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             Restaurant = _restaurantData.Update(Restaurant);
             _restaurantData.Commit();
             return RedirectToPage("./List");
