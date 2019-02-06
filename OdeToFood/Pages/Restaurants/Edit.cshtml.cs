@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OdeToFood.Core;
+using OdeToFood.Core.Entities;
+using OdeToFood.Core.Enums;
 using OdeToFood.Data;
 
 namespace OdeToFood.Pages.Restaurants

@@ -1,5 +1,6 @@
 ﻿using OdeToFood.Core;
 using System.Collections.Generic;
+using OdeToFood.Core.Entities;
 
 namespace OdeToFood.Data
 {
@@ -9,6 +10,7 @@ namespace OdeToFood.Data
         Restaurant GetById(int id);
         Restaurant Add(Restaurant newRestaurant);
         Restaurant Update(Restaurant updatedRestaurant);
+        void Delete(int id);
         int Commit();
     }
 }

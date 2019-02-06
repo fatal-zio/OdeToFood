@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OdeToFood.Core;
+using OdeToFood.Core.Entities;
+using OdeToFood.Core.Enums;
 
 namespace OdeToFood.Data
 {
@@ -47,6 +49,15 @@ namespace OdeToFood.Data
             }
 
             return restaurant;
+        }
+
+        public void Delete(int id)
+        {
+            var restaurant = _restaurants.FirstOrDefault(o => o.Id == id);
+            if (restaurant != null)
+            {
+                _restaurants.Remove(restaurant);
+            }
         }
 
         public int Commit() => 0;
