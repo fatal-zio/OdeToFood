@@ -22,10 +22,11 @@ namespace OdeToFood.Pages.Restaurants
             _htmlHelper = htmlHelper;
         } 
 
-        public IActionResult OnGet(int restaurantId)
+        public IActionResult OnGet(int? restaurantId)
         {
             GetCuisines();
-            Restaurant = _restaurantData.GetById(restaurantId);
+
+            Restaurant = restaurantId.HasValue ? _restaurantData.GetById((int)restaurantId) : new Restaurant();
 
             return Restaurant == null ? 
                 (IActionResult) RedirectToPage("./NotFound") : 
@@ -41,8 +42,10 @@ namespace OdeToFood.Pages.Restaurants
                 return Page();
             }
 
-            Restaurant = _restaurantData.Update(Restaurant);
+            Restaurant = Restaurant.Id > 0 ? _restaurantData.Update(Restaurant) : _restaurantData.Add(Restaurant);
+            
             _restaurantData.Commit();
+            TempData["Message"] = $"{Restaurant.Name} saved!";
             return RedirectToPage("./List");
         }
 
