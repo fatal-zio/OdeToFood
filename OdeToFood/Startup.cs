@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OdeToFood.Core.Extensions;
 using OdeToFood.Data;
+using OdeToFood.Data.Repositories;
 
 namespace OdeToFood
 {
@@ -23,7 +24,7 @@ namespace OdeToFood
                     options.UseSqlServer(Configuration.GetConnectionString("OdeToFoodDb").Decode());
                 });
 
-            services.AddSingleton<IRestaurantData, InMemoryRestaurantData>();
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -36,7 +37,7 @@ namespace OdeToFood
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, OdeToFoodDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -52,6 +53,8 @@ namespace OdeToFood
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            context.EnsureSeedDataExists();
 
             app.UseMvc();
         }

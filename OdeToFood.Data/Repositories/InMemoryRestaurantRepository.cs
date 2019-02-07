@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OdeToFood.Core;
 using OdeToFood.Core.Entities;
 using OdeToFood.Core.Enums;
 
-namespace OdeToFood.Data
+namespace OdeToFood.Data.Repositories
 {
-    public class InMemoryRestaurantData : IRestaurantData
+    public class InMemoryRestaurantRepository : IRestaurantRepository
     {
         private readonly List<Restaurant> _restaurants;
 
-        public InMemoryRestaurantData()
+        public InMemoryRestaurantRepository()
         {
             _restaurants = new List<Restaurant>  
             {
@@ -21,6 +20,8 @@ namespace OdeToFood.Data
             };
         }
 
+        public IEnumerable<Restaurant> GetRestaurants() => _restaurants;
+
         public IEnumerable<Restaurant> GetRestaurantsByName(string name = null)
         {
             return from r in _restaurants
@@ -29,15 +30,14 @@ namespace OdeToFood.Data
                 select r;
         }
 
-        public Restaurant GetById(int id) => _restaurants.FirstOrDefault(o => o.Id == id);
-        public Restaurant Add(Restaurant newRestaurant)
+        public Restaurant GetRestaurant(int id) => _restaurants.FirstOrDefault(o => o.Id == id);
+        public void Add(Restaurant newRestaurant)
         {
             newRestaurant.Id = _restaurants.Max(o => o.Id) + 1;
             _restaurants.Add(newRestaurant);
-            return newRestaurant;
         }
 
-        public Restaurant Update(Restaurant updatedRestaurant)
+        public void Update(Restaurant updatedRestaurant)
         {
             var restaurant = _restaurants.FirstOrDefault(o => o.Id == updatedRestaurant.Id);
 
@@ -47,19 +47,10 @@ namespace OdeToFood.Data
                 restaurant.Location = updatedRestaurant.Location;
                 restaurant.Cuisine = updatedRestaurant.Cuisine;
             }
-
-            return restaurant;
         }
 
-        public void Delete(int id)
-        {
-            var restaurant = _restaurants.FirstOrDefault(o => o.Id == id);
-            if (restaurant != null)
-            {
-                _restaurants.Remove(restaurant);
-            }
-        }
+        public void Delete(Restaurant restaurant) => _restaurants.Remove(restaurant);
 
-        public int Commit() => 0;
+        public bool Commit() => true;
     }
 }

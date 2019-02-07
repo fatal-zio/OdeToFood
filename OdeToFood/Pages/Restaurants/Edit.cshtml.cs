@@ -6,19 +6,20 @@ using OdeToFood.Core;
 using OdeToFood.Core.Entities;
 using OdeToFood.Core.Enums;
 using OdeToFood.Data;
+using OdeToFood.Data.Repositories;
 
 namespace OdeToFood.Pages.Restaurants
 {
     public class EditModel : PageModel
     {
-        private readonly IRestaurantData _restaurantData;
+        private readonly IRestaurantRepository _restaurantData;
         private readonly IHtmlHelper _htmlHelper;
 
         [BindProperty]
         public Restaurant Restaurant { get; set; }
         public IEnumerable<SelectListItem> Cuisines { get; set; }
 
-        public EditModel(IRestaurantData restaurantData, IHtmlHelper htmlHelper)
+        public EditModel(IRestaurantRepository restaurantData, IHtmlHelper htmlHelper)
         {
             _restaurantData = restaurantData;
             _htmlHelper = htmlHelper;
@@ -28,7 +29,7 @@ namespace OdeToFood.Pages.Restaurants
         {
             GetCuisines();
 
-            Restaurant = restaurantId.HasValue ? _restaurantData.GetById((int)restaurantId) : new Restaurant();
+            Restaurant = restaurantId.HasValue ? _restaurantData.GetRestaurant((int)restaurantId) : new Restaurant();
 
             return Restaurant == null ? 
                 (IActionResult) RedirectToPage("./NotFound") : 
@@ -44,7 +45,14 @@ namespace OdeToFood.Pages.Restaurants
                 return Page();
             }
 
-            Restaurant = Restaurant.Id > 0 ? _restaurantData.Update(Restaurant) : _restaurantData.Add(Restaurant);
+            if (Restaurant.Id > 0)
+            {
+                _restaurantData.Update(Restaurant);
+            }
+            else
+            {
+                _restaurantData.Add(Restaurant);
+            }
             
             _restaurantData.Commit();
             TempData["Message"] = $"{Restaurant.Name} saved!";
