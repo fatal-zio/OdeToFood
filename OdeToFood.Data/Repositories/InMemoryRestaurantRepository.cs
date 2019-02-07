@@ -50,7 +50,7 @@ namespace OdeToFood.Data.Repositories
         }
 
         public void Delete(Restaurant restaurant) => _restaurants.Remove(restaurant);
-
+        public int GetCount() => _restaurants.Count;
         public bool Commit() => true;
     }
 }

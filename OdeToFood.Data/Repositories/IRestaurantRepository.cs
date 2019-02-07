@@ -11,6 +11,7 @@ namespace OdeToFood.Data.Repositories
         void Add(Restaurant restaurant);
         void Update(Restaurant restaurant);
         void Delete(Restaurant restaurant);
+        int GetCount();
         bool Commit();
     }
 }

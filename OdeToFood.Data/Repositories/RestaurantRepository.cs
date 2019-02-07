@@ -22,13 +22,10 @@ namespace OdeToFood.Data.Repositories
         }
 
         public Restaurant GetRestaurant(int id) => _context.Restaurants.FirstOrDefault(o => o.Id == id);
-
         public void Add(Restaurant restaurant) => _context.Restaurants.Add(restaurant);
-
         public void Update(Restaurant restaurant) => _context.Restaurants.Update(restaurant);
-
         public void Delete(Restaurant restaurant) => _context.Restaurants.Remove(restaurant);
-
+        public int GetCount() => _context.Restaurants.Count();
         public bool Commit() => _context.SaveChanges() >= 0;
     }
 }
