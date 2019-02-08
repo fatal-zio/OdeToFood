@@ -50,6 +50,8 @@ namespace OdeToFood
                 app.UseHsts();
             }
 
+            app.Use(ExampleMiddleware);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -57,6 +59,21 @@ namespace OdeToFood
             context.EnsureSeedDataExists();
 
             app.UseMvc();
+        }
+
+        private RequestDelegate ExampleMiddleware(RequestDelegate next)
+        {
+            return async ctx =>
+            {
+                if (ctx.Request.Path.StartsWithSegments("/Example"))
+                {
+                    await ctx.Response.WriteAsync("Example Middleware triggered.");
+                }
+                else
+                {
+                    await next(ctx);
+                }
+            };
         }
     }
 }
